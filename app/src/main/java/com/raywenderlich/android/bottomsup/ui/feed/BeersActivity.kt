@@ -22,15 +22,57 @@
 
 package com.raywenderlich.android.bottomsup.ui.feed
 
+import android.content.Context
+import android.net.ConnectivityManager
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.GridLayoutManager
 import com.raywenderlich.android.bottomsup.R
+import com.raywenderlich.android.bottomsup.common.getViewModel
+import com.raywenderlich.android.bottomsup.common.subscribe
+import com.raywenderlich.android.bottomsup.ui.feed.adapter.BeersAdapter
+import com.raywenderlich.android.bottomsup.viewmodel.BeersViewModel
 
 
 class BeersActivity : AppCompatActivity() {
 
+
+  private val viewModel by lazy { getViewModel<BeersViewModel>()}
+  private val adapter = BeersAdapter()
+
+  val Context.isConnected : Boolean get() {
+    return (getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager).activeNetworkInfo?.isConnected == true
+  }
+
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_beers)
+    setActionBar(findViewById(R.id.toolBarMain))
+    initializeUi()
+
+    viewModel.errorData.subscribe(this, this::setErrorVisibility)
+    viewModel.loadingData.subscribe(this, this::showLoading)
+    viewModel.pageData.subscribe(this, adapter::clearIfNeeded)
+    viewModel.beerData.subscribe(this, adapter::addItems)
+
+    viewModel.getBeers()
+
   }
+  private fun initializeUi(){
+    beersList.layoutManager = GridLayoutManager(this, 2)
+    beersList.itemAnimator = DefaultItemAnimator()
+    beersList.adapter = adapter
+
+    pullToRefresh.setOnRefreshListener ( viewModel::onRefresh )
+  }
+  private fun showLoading(isLoading: Boolean){
+    pullToRefresh.isRefreshing = isLoading
+  }
+  private fun setErrorVisibility(shouldShow: Boolean){
+    errorView.visibility = if (shouldShow) View.VISIBLE else View.GONE
+    beersList.visibility = if (!shouldShow) View.VISIBLE else View.GONE
+  }
+  //acá puede ir mi método para la carga infinita!
 }
