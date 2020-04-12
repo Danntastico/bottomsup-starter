@@ -34,6 +34,7 @@ import com.raywenderlich.android.bottomsup.common.getViewModel
 import com.raywenderlich.android.bottomsup.common.subscribe
 import com.raywenderlich.android.bottomsup.ui.feed.adapter.BeersAdapter
 import com.raywenderlich.android.bottomsup.viewmodel.BeersViewModel
+import kotlinx.android.synthetic.main.activity_beers.*
 
 
 class BeersActivity : AppCompatActivity() {
