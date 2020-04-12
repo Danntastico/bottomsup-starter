@@ -23,6 +23,7 @@
 package com.raywenderlich.android.bottomsup.common
 
 
-const val BASE_URL = "http://api.brewerydb.com/v2/"
 
-const val API_KEY = "your-api-key"
+const val BASE_URL = "https://sandbox-api.brewerydb.com/v2/"
+
+const val API_KEY = "78f952a16902ba85b557c42d2e64865a"

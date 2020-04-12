@@ -42,11 +42,11 @@ class BeersActivity : AppCompatActivity() {
 
   private val viewModel by lazy { getViewModel<BeersViewModel>()}
   private val adapter = BeersAdapter()
-
+/*
   val Context.isConnected : Boolean get() {
     return (getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager).activeNetworkInfo?.isConnected == true
   }
-
+*/
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_beers)
