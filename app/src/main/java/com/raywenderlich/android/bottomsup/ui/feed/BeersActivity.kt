@@ -24,9 +24,15 @@ package com.raywenderlich.android.bottomsup.ui.feed
 
 import android.content.Context
 import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.net.NetworkInfo
+import android.net.wifi.p2p.WifiP2pManager
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.GridLayoutManager
 import com.raywenderlich.android.bottomsup.R
@@ -34,6 +40,7 @@ import com.raywenderlich.android.bottomsup.common.getViewModel
 import com.raywenderlich.android.bottomsup.common.subscribe
 import com.raywenderlich.android.bottomsup.ui.feed.adapter.BeersAdapter
 import com.raywenderlich.android.bottomsup.viewmodel.BeersViewModel
+import com.raywenderlich.android.bottomsup.viewmodel.ConnViewModel
 import kotlinx.android.synthetic.main.activity_beers.*
 
 
@@ -41,25 +48,34 @@ class BeersActivity : AppCompatActivity() {
 
 
   private val viewModel by lazy { getViewModel<BeersViewModel>()}
+  private val connViewModel by lazy {getViewModel<ConnViewModel>()}
   private val adapter = BeersAdapter()
-/*
-  val Context.isConnected : Boolean get() {
-    return (getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager).activeNetworkInfo?.isConnected == true
-  }
-*/
+
+
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
+
     setContentView(R.layout.activity_beers)
     setActionBar(findViewById(R.id.toolBarMain))
     initializeUi()
-
     viewModel.errorData.subscribe(this, this::setErrorVisibility)
     viewModel.loadingData.subscribe(this, this::showLoading)
     viewModel.pageData.subscribe(this, adapter::clearIfNeeded)
     viewModel.beerData.subscribe(this, adapter::addItems)
-
+    connViewModel.connectivity.observe(this, Observer {
+      it?.run {
+        if(it) {
+          Log.d("heeeeeeyyyyyyyy","INTERNET ON")
+          ConnAlert2.visibility = View.GONE
+          initializeUi()
+          viewModel.getBeers()
+        } else {
+          Log.d("heeeeeeyyyyyyyy", "INTERNET OFF")
+          ConnAlert2.visibility = View.VISIBLE
+        }
+      }
+    })
     viewModel.getBeers()
-
   }
   private fun initializeUi(){
     beersList.layoutManager = GridLayoutManager(this, 2)
