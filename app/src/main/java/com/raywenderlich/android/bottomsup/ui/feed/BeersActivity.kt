@@ -32,6 +32,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.GridLayoutManager
 import com.raywenderlich.android.bottomsup.R
@@ -77,10 +78,10 @@ class BeersActivity : AppCompatActivity() {
     beersList.visibility = if (!shouldShow) View.VISIBLE else View.GONE
   }
 
-  private fun isInternetAvailable(context: Context): Boolean {
+  private fun isInternetAvailable(): Boolean {
     var result = false
     val connectivityManager =
-            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            baseContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
       val networkCapabilities = connectivityManager.activeNetwork ?: return false
       val actNw =
