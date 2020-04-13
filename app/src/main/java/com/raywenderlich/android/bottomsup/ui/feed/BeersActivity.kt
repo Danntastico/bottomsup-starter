@@ -40,14 +40,15 @@ import com.raywenderlich.android.bottomsup.common.getViewModel
 import com.raywenderlich.android.bottomsup.common.subscribe
 import com.raywenderlich.android.bottomsup.ui.feed.adapter.BeersAdapter
 import com.raywenderlich.android.bottomsup.viewmodel.BeersViewModel
+import com.raywenderlich.android.bottomsup.viewmodel.ConnViewModel
 import kotlinx.android.synthetic.main.activity_beers.*
-import kotlinx.android.synthetic.main.fragment_connection_alert.*
 
 
 class BeersActivity : AppCompatActivity() {
 
 
   private val viewModel by lazy { getViewModel<BeersViewModel>()}
+  private val connViewModel by lazy {getViewModel<ConnViewModel>()}
   private val adapter = BeersAdapter()
 
 
@@ -61,6 +62,19 @@ class BeersActivity : AppCompatActivity() {
     viewModel.loadingData.subscribe(this, this::showLoading)
     viewModel.pageData.subscribe(this, adapter::clearIfNeeded)
     viewModel.beerData.subscribe(this, adapter::addItems)
+    connViewModel.connectivity.observe(this, Observer {
+      it?.run {
+        if(it) {
+          Log.d("heeeeeeyyyyyyyy","INTERNET ON")
+          ConnAlert2.visibility = View.GONE
+          initializeUi()
+          viewModel.getBeers()
+        } else {
+          Log.d("heeeeeeyyyyyyyy", "INTERNET OFF")
+          ConnAlert2.visibility = View.VISIBLE
+        }
+      }
+    })
     viewModel.getBeers()
   }
   private fun initializeUi(){
@@ -76,37 +90,6 @@ class BeersActivity : AppCompatActivity() {
   private fun setErrorVisibility(shouldShow: Boolean){
     errorView.visibility = if (shouldShow) View.VISIBLE else View.GONE
     beersList.visibility = if (!shouldShow) View.VISIBLE else View.GONE
-  }
-
-  private fun isInternetAvailable(): Boolean {
-    var result = false
-    val connectivityManager =
-            baseContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-      val networkCapabilities = connectivityManager.activeNetwork ?: return false
-      val actNw =
-              connectivityManager.getNetworkCapabilities(networkCapabilities) ?: return false
-      result = when {
-        actNw.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
-        actNw.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
-        actNw.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
-        else -> false
-      }
-    } else {
-      connectivityManager.run {
-        connectivityManager.activeNetworkInfo?.run {
-          result = when (type) {
-            ConnectivityManager.TYPE_WIFI -> true
-            ConnectivityManager.TYPE_MOBILE -> true
-            ConnectivityManager.TYPE_ETHERNET -> true
-            else -> false
-          }
-
-        }
-      }
-    }
-
-    return result
   }
   //acá puede ir mi método para la carga infinita!
 }
