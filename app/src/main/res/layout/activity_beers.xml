@@ -45,6 +45,7 @@
       android:layout_width="match_parent"
       android:id="@+id/ConnAlert2"
       tools:context=".ui.feed.BeersActivity"
+      android:layout_marginTop="@dimen/appBarHeight"
       >
     <LinearLayout
         android:layout_height="wrap_content"
