@@ -7,6 +7,9 @@
     android:layout_height="match_parent"
     tools:context="com.raywenderlich.android.bottomsup.ui.feed.BeersActivity">
 
+
+
+
   <com.google.android.material.appbar.AppBarLayout
       android:layout_width="match_parent"
       android:layout_height="@dimen/appBarHeight"
@@ -36,6 +39,7 @@
       </LinearLayout>
     </Toolbar>
   </com.google.android.material.appbar.AppBarLayout>
+
 
   <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
       android:id="@+id/pullToRefresh"

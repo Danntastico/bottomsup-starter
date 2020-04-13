@@ -40,6 +40,7 @@ import com.raywenderlich.android.bottomsup.common.subscribe
 import com.raywenderlich.android.bottomsup.ui.feed.adapter.BeersAdapter
 import com.raywenderlich.android.bottomsup.viewmodel.BeersViewModel
 import kotlinx.android.synthetic.main.activity_beers.*
+import kotlinx.android.synthetic.main.fragment_connection_alert.*
 
 
 class BeersActivity : AppCompatActivity() {
@@ -51,17 +52,15 @@ class BeersActivity : AppCompatActivity() {
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
+
     setContentView(R.layout.activity_beers)
     setActionBar(findViewById(R.id.toolBarMain))
     initializeUi()
-
     viewModel.errorData.subscribe(this, this::setErrorVisibility)
     viewModel.loadingData.subscribe(this, this::showLoading)
     viewModel.pageData.subscribe(this, adapter::clearIfNeeded)
     viewModel.beerData.subscribe(this, adapter::addItems)
-
     viewModel.getBeers()
-
   }
   private fun initializeUi(){
     beersList.layoutManager = GridLayoutManager(this, 2)
