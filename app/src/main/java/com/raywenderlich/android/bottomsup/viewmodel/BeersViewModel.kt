@@ -14,6 +14,7 @@ class BeersViewModel : ViewModel() {
 
     val errorData = MutableLiveData<Boolean>()
     val loadingData = MutableLiveData<Boolean>()
+    val connection = MutableLiveData<Boolean>()
 
     val pageData = MutableLiveData<Int>()
     val beerData = MutableLiveData<List<Beer>>()
