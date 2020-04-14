@@ -6,6 +6,6 @@
         android:icon="@drawable/ic_drink"/>
     <item
         android:id="@+id/navFavourites"
-        android:title="Cronograma"
+        android:title="Favoritos"
         android:icon="@drawable/ic_favorite" />
 </menu>
