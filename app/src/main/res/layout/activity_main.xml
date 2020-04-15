@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,8 +8,7 @@
     tools:context=".ui.MainActivity">
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/appBarHeight"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="wrap_content">
         <Toolbar
             android:id="@+id/toolBarMain"
             android:layout_width="match_parent"
@@ -34,6 +34,15 @@
             </LinearLayout>
         </Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
-
-
-</RelativeLayout>
+    <RelativeLayout
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bnMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            app:menu="@menu/bn_menu" />
+    </RelativeLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
