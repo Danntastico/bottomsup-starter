@@ -39,7 +39,6 @@ import com.raywenderlich.android.bottomsup.viewmodel.ConnViewModel
 import kotlinx.android.synthetic.main.activity_beers.*
 import kotlinx.android.synthetic.main.fragment_beers.*
 
-//adding navigation
 class BeersActivity : AppCompatActivity() {
 
 
