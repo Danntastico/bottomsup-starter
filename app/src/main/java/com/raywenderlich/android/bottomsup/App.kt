@@ -26,6 +26,7 @@ import android.app.Application
 import com.raywenderlich.android.bottomsup.di.AppComponent
 import com.raywenderlich.android.bottomsup.di.DaggerAppComponent
 //Creating navigation bar--> Done.
+//creating beers fragments and main activity --> Done.
 
 class App : Application() {
 
