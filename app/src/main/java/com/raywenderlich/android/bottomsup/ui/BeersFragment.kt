@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.GridLayoutManager
 
@@ -35,22 +36,26 @@ class BeersFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        viewModel = ViewModelProviders.of(this).get(BeersViewModel::class.java)
+        connViewModel = ViewModelProviders.of(this).get(ConnViewModel::class.java)
+
         initializeUi(view)
         viewModel.errorData.subscribe(this, this::setErrorVisibility)
         viewModel.loadingData.subscribe(this, this::showLoading)
         viewModel.pageData.subscribe(this, adapter::clearIfNeeded)
         viewModel.beerData.subscribe(this, adapter::addItems)
 
-        connViewModel.connectivity.observe(this, Observer {
+        connViewModel.connectivity.observe(viewLifecycleOwner, Observer {
             it?.run {
                 if(it) {
                     Log.d("heeeeeeyyyyyyyy","INTERNET ON")
-                    ConnAlert2.visibility = View.GONE
+                    ConnAlert.visibility = View.GONE
                     initializeUi(view)
                     viewModel.getBeers()
                 } else {
                     Log.d("heeeeeeyyyyyyyy", "INTERNET OFF")
-                    ConnAlert2.visibility = View.VISIBLE
+                    ConnAlert.visibility = View.VISIBLE
                 }
             }
         })
