@@ -9,5 +9,14 @@
         android:id="@+id/navBeer"
         android:name="com.raywenderlich.android.bottomsup.ui.BeersFragment"
         android:label="fragment_beers"
-        tools:layout="@layout/fragment_beers" />
+        tools:layout="@layout/fragment_beers" >
+        <action
+            android:id="@+id/action_navBeer_to_favouritesFragment"
+            app:destination="@id/navFavourites" />
+    </fragment>
+    <fragment
+        android:id="@+id/navFavourites"
+        android:name="com.raywenderlich.android.bottomsup.ui.fragments.FavouritesFragment"
+        android:label="fragment_favourites"
+        tools:layout="@layout/fragment_favourites" />
 </navigation>
