@@ -26,6 +26,7 @@ import android.app.Application
 import com.raywenderlich.android.bottomsup.di.AppComponent
 import com.raywenderlich.android.bottomsup.di.DaggerAppComponent
 //Testing branch
+//Adding favourite button
 class App : Application() {
 
   companion object {
