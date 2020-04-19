@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -18,6 +19,7 @@ import com.raywenderlich.android.bottomsup.viewmodel.BeersViewModel
 import com.raywenderlich.android.bottomsup.viewmodel.ConnViewModel
 import kotlinx.android.synthetic.main.activity_beers.*
 import kotlinx.android.synthetic.main.fragment_beers.*
+import kotlinx.android.synthetic.main.item_beer.*
 
 /**
  * A simple [Fragment] subclass.
@@ -27,6 +29,7 @@ class BeersFragment : Fragment() {
     private lateinit var viewModel: BeersViewModel
     private lateinit var connViewModel: ConnViewModel
     private val adapter = BeersAdapter()
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -60,7 +63,6 @@ class BeersFragment : Fragment() {
             }
         })
         viewModel.getBeers()
-
     }
 
     private fun initializeUi(view: View){
