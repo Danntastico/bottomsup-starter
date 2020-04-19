@@ -24,13 +24,29 @@ package com.raywenderlich.android.bottomsup.ui.feed.holder
 
 import androidx.recyclerview.widget.RecyclerView
 import android.view.View
+import android.widget.CheckBox
+import android.widget.Toast
+import androidx.annotation.NonNull
 import com.bumptech.glide.Glide
+import com.raywenderlich.android.bottomsup.R
 import com.raywenderlich.android.bottomsup.model.Beer
 import kotlinx.android.synthetic.main.item_beer.view.*
 
 
 class BeerHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+  private var favBtn: CheckBox = itemView.findViewById(R.id.favicon)
 
+  init{
+    favBtn.setOnCheckedChangeListener { checkBox, isChecked ->
+      if (isChecked){
+        Toast.makeText(itemView.context, "Added to favourites", Toast.LENGTH_LONG).show()
+      } else {
+        Toast.makeText(itemView.context, "Removed from Favourites", Toast.LENGTH_LONG).show()
+
+      }
+    }
+  }
+  
   fun showBeer(beer: Beer): Unit = with(itemView) {
     beerStyle.text = beer.style.name
     beerName.text = beer.name
