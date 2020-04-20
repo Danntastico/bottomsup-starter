@@ -22,8 +22,11 @@
 
 package com.raywenderlich.android.bottomsup.api
 
+import com.raywenderlich.android.bottomsup.common.BASE_URL
 import com.raywenderlich.android.bottomsup.model.BeerResponse
 import retrofit2.Call
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -32,4 +35,14 @@ interface BreweryApiService {
 
   @GET("/v2/beers")
   fun getBeers(@Query("p") page: Int, @Query("key") apiKey: String, @Query("styleId") styleId: String = "15"): Call<BeerResponse>
+
+  companion object{
+    fun createService(): BreweryApiService{
+      return Retrofit.Builder()
+              .baseUrl(BASE_URL)
+              .addConverterFactory(GsonConverterFactory.create())
+              .build()
+              .create(BreweryApiService::class.java)
+    }
+  }
 }
