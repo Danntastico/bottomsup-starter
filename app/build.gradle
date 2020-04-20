@@ -27,6 +27,8 @@ ext {
     retrofit = "2.3.0"
 }
 
+def paging_version = "1.0.1"
+
 dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -59,4 +61,7 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor:3.9.1'
     implementation 'androidx.navigation:navigation-fragment-ktx:2.2.1'
     implementation 'androidx.navigation:navigation-ui-ktx:2.2.1'
+
+    //Paging Library
+    implementation "android.arch.paging:runtime:$paging_version"
 }
