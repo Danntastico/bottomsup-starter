@@ -9,11 +9,15 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.paging.DataSource
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.GridLayoutManager
 
 import com.raywenderlich.android.bottomsup.R
 import com.raywenderlich.android.bottomsup.common.subscribe
+import com.raywenderlich.android.bottomsup.model.Beer
 import com.raywenderlich.android.bottomsup.ui.feed.adapter.BeersAdapter
 import com.raywenderlich.android.bottomsup.viewmodel.BeersViewModel
 import com.raywenderlich.android.bottomsup.viewmodel.ConnViewModel
@@ -29,7 +33,6 @@ class BeersFragment : Fragment() {
     private lateinit var viewModel: BeersViewModel
     private lateinit var connViewModel: ConnViewModel
     private val adapter = BeersAdapter()
-
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -70,8 +73,29 @@ class BeersFragment : Fragment() {
         beersListF.itemAnimator = DefaultItemAnimator()
         beersListF.adapter = adapter
 
+        val config = PagedList.Config.Builder()
+                .setPageSize(30)
+                .setEnablePlaceholders(false)
+                .build()
+        val liveData = initializedPagedListBuilder(config).build()
+
+        liveData.observe(viewLifecycleOwner, Observer <PagedList<Beer>>{
+            pagedList -> adapter.submitList(pagedList)
+        })
+
         pullToRefreshF.setOnRefreshListener(viewModel::onRefresh)
     }
+
+    private fun initializedPagedListBuilder(config: PagedList.Config)
+            :LivePagedListBuilder<String, Beer>{
+        val dataSourceFactory = object: DataSource.Factory<String, Beer>(){
+            override fun create(): DataSource<String, Beer> {
+                return  BeersDataSource()
+            }
+        }
+        return LivePagedListBuilder(dataSourceFactory, config)
+    }
+
     private fun showLoading(isLoading: Boolean){
         pullToRefreshF.isRefreshing = isLoading
     }

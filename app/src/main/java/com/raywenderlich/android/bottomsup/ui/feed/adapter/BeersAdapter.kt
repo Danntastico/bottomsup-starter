@@ -25,26 +25,32 @@ package com.raywenderlich.android.bottomsup.ui.feed.adapter
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagedListAdapter
 import com.raywenderlich.android.bottomsup.R
 import com.raywenderlich.android.bottomsup.model.Beer
 import com.raywenderlich.android.bottomsup.model.BeerResponse
+import com.raywenderlich.android.bottomsup.ui.BeerDiffUtilCallback
 import com.raywenderlich.android.bottomsup.ui.feed.holder.BeerHolder
 
-
-class BeersAdapter : RecyclerView.Adapter<BeerHolder>() {
+//RecyclerView.Adapter<BeerHolder>
+class BeersAdapter : PagedListAdapter<Beer, BeerHolder>(BeerDiffUtilCallback()) {
 
   private val beers = mutableListOf<Beer>()
 
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BeerHolder {
-    val view = LayoutInflater.from(parent?.context).inflate(R.layout.item_beer, parent, false)
+    val view = LayoutInflater.from(parent.context).inflate(R.layout.item_beer, parent, false)
 
     return BeerHolder(view)
   }
 
   override fun onBindViewHolder(holder: BeerHolder, position: Int) {
-    val beer = beers[position]
-
-    holder?.run { showBeer(beer) }
+    //val beer = beers[position]
+    val beer = getItem(position)
+    holder.run {
+      if (beer != null) {
+        showBeer(beer)
+      }
+    }
   }
 
   fun clearIfNeeded(page: Int) {
