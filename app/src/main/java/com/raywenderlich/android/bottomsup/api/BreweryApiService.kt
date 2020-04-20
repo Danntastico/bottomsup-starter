@@ -34,7 +34,10 @@ import retrofit2.http.Query
 interface BreweryApiService {
 
   @GET("/v2/beers")
-  fun getBeers(@Query("p") page: Int, @Query("key") apiKey: String, @Query("styleId") styleId: String = "15"): Call<BeerResponse>
+  fun getBeers(
+          @Query("p") page: Int,
+          @Query("key") apiKey: String? = null,
+          @Query("styleId") styleId: String = "15"): Call<BeerResponse>
 
   companion object{
     fun createService(): BreweryApiService{
