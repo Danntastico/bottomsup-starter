@@ -27,7 +27,7 @@ import com.raywenderlich.android.bottomsup.di.AppComponent
 import com.raywenderlich.android.bottomsup.di.DaggerAppComponent
 //Testing branch
 //Adding favourite button -> Done.
-//Creating infinite Scrolling
+//Creating infinite Scrolling -> Failed
 class App : Application() {
 
   companion object {
